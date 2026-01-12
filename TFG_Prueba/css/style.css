@@ -1,0 +1,40 @@
+#chat {
+    background: #1e1e2f;
+    color: #fff;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.burbuja {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.usuario {
+    background-color: #0d6efd;
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 0;
+}
+
+.ia {
+    background-color: #198754;
+    color: white;
+    align-self: flex-start;
+    border-bottom-left-radius: 0;
+}
+
+#chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.flex-end { align-self: flex-end; }
+.flex-start { align-self: flex-start; }
