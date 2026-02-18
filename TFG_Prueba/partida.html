@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partida DnD</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body, html { height: 100%; margin: 0; }
+    #chat-container {
+        background: #1e1e2f;
+        color: white;
+        padding: 15px;
+        overflow-y: auto;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .burbuja {
+        padding: 10px 15px;
+        border-radius: 15px;
+        margin-bottom: 8px;
+        max-width: 70%;
+        word-wrap: break-word;
+    }
+    .usuario {
+        background-color: #0d6efd;
+        color: white;
+        align-self: flex-end;
+        border-bottom-right-radius: 0;
+    }
+    .ia {
+        background-color: #198754;
+        color: white;
+        align-self: flex-start;
+        border-bottom-left-radius: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid p-0 h-100">
+    <div class="row h-100">
+      <!-- Panel del personaje -->
+      <div class="col-md-4 bg-light border-end p-3 overflow-auto" id="panel-personaje">
+        <!-- Se llena con JS -->
+      </div>
+
+      <!-- Chat -->
+      <div class="col-md-8 d-flex flex-column">
+        <div id="chat-container"></div>
+        <div class="p-2 border-top d-flex">
+          <input type="text" id="mensaje-input" class="form-control me-2" placeholder="Escribe tu mensaje...">
+          <button id="enviar-mensaje" class="btn btn-primary">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Obtener ID de la partida desde URL
+    const params = new URLSearchParams(window.location.search);
+    const partidaId = params.get('id');
+    let partidas = JSON.parse(localStorage.getItem('partidas')) || [];
+    let partida = partidas.find(p => p.id == partidaId);
+
+    if(!partida){
+      alert("Partida no encontrada");
+      window.location.href = "partidas.html";
+    }
+
+    // Panel del personaje
+    const panel = document.getElementById('panel-personaje');
+    const personaje = partida.personaje;
+
+    panel.innerHTML = `
+      <div class="text-center mb-3">
+        <img src="${personaje.imagen}" class="img-fluid rounded mb-2" alt="${personaje.nombre}">
+        <h4>${personaje.nombre} - ${personaje.clase}</h4>
+        <p><strong>Vida:</strong> ${personaje.vida || 100}</p>
+        <p><strong>Conjuros:</strong> ${personaje.conjuros.length ? personaje.conjuros.join(', ') : 'Ninguno'}</p>
+      </div>
+      <div>
+        <h5>Características</h5>
+        <ul>
+          <li>Fuerza: ${personaje.fuerza}</li>
+          <li>Destreza: ${personaje.destreza}</li>
+          <li>Constitución: ${personaje.constitucion}</li>
+          <li>Inteligencia: ${personaje.inteligencia}</li>
+          <li>Sabiduría: ${personaje.sabiduria}</li>
+          <li>Carisma: ${personaje.carisma}</li>
+        </ul>
+        <h5>Trasfondo</h5>
+        <p>${personaje.trasfondo || "Sin trasfondo"}</p>
+      </div>
+    `;
+
+    // Chat
+    const chatContainer = document.getElementById('chat-container');
+    const input = document.getElementById('mensaje-input');
+    const btnEnviar = document.getElementById('enviar-mensaje');
+
+    function renderChat(){
+      chatContainer.innerHTML = '';
+      partida.mensajes.forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'd-flex mb-2 ' + (m.tipo === 'usuario' ? 'justify-content-end' : 'justify-content-start');
+        const burbuja = document.createElement('div');
+        burbuja.className = `burbuja ${m.tipo}`;
+        burbuja.textContent = m.texto;
+        div.appendChild(burbuja);
+        chatContainer.appendChild(div);
+      });
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // Función que envía el mensaje
+function enviarMensaje() {
+    const mensaje = input.value.trim();
+    if(!mensaje) return;
+
+    // Guardar mensaje del usuario
+    partida.mensajes.push({tipo:'usuario', texto:mensaje});
+    renderChat();
+    input.value='';
+
+    // Simulación IA (o llamada a GPT)
+    const respuestaIA = `IA responde a: "${mensaje}"`;
+    partida.mensajes.push({tipo:'ia', texto:respuestaIA});
+    renderChat();
+
+    // Guardar partida actualizada en localStorage
+    partidas = partidas.map(p => p.id == partida.id ? partida : p);
+    localStorage.setItem('partidas', JSON.stringify(partidas));
+}
+
+// Botón enviar
+btnEnviar.addEventListener('click', enviarMensaje);
+
+// Enter en el input
+input.addEventListener('keydown', (e) => {
+    if(e.key === "Enter" && !e.shiftKey){ // Enter normal
+        e.preventDefault(); // Evita salto de línea
+        enviarMensaje();    // Llama a la misma función que el botón
+    }
+});
+    renderChat();
+  </script>
+</body>
+</html>
+
