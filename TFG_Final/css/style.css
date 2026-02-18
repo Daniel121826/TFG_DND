@@ -3,8 +3,10 @@
     --verde: #1f5c3a;
     --verde-oscuro: #16462c;
     --verde-claro: #2a7a4b;
+    --rojo: #c00;
     --gris-fondo: #ececec;
     --texto: #222;
+    --rojo-oscuro: #900;
 }
 
 /* ===== RESET ===== */
@@ -67,6 +69,18 @@ nav a {
 
 .btn-primary :hover {
     background: var(--verde-oscuro);
+}
+.btn-danger {
+    background: var(--rojo);
+    color: #fff;
+    border: none;
+    padding: 15px 28px;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.btn-danger :hover {
+    background: var(--rojo-oscuro);
 }
 
 

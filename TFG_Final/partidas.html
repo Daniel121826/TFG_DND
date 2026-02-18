@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partidas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <nav>
+    <div class="logo">UNIVERSO D&D</div>
+    <ul>
+      <li><a href="partidas.html">MIS PARTIDAS</a></li>
+      <li><a href="personajes.html">MIS PERSONAJES</a></li>
+      <li><a href="">CONTÁCTANOS</a></li>
+      <li><a href="#" class="btn-outline">REGÍSTRATE</a></li>
+    </ul>
+  </nav>
+
+  <div class="container mt-4">
+    <h2>Partidas</h2>
+
+    <div class="mb-4">
+      <h4>Nueva Partida</h4>
+      <label for="seleccion-personaje" class="form-label">Selecciona tu personaje:</label>
+      <select id="seleccion-personaje" class="form-select mb-2"></select>
+      <button id="nueva-partida" class="btn btn-success">Iniciar Partida</button>
+    </div>
+
+    <div>
+      <h4>Partidas Existentes</h4>
+      <ul id="partidas-guardadas" class="list-group">
+        <!-- Se cargan partidas guardadas -->
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+
+</html>

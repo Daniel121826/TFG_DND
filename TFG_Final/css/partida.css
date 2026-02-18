@@ -1,0 +1,29 @@
+ body, html { height: 100%; margin: 0; }
+    #chat-container {
+        background: #1e1e2f;
+        color: white;
+        padding: 15px;
+        overflow-y: auto;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    .burbuja {
+        padding: 10px 15px;
+        border-radius: 15px;
+        margin-bottom: 8px;
+        max-width: 70%;
+        word-wrap: break-word;
+    }
+    .usuario {
+        background-color: #0d6efd;
+        color: white;
+        align-self: flex-end;
+        border-bottom-right-radius: 0;
+    }
+    .ia {
+        background-color: #198754;
+        color: white;
+        align-self: flex-start;
+        border-bottom-left-radius: 0;
+    }
